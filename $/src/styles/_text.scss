@@ -1,0 +1,45 @@
+// #
+
+@use "sass:math";
+@import "functions-mixins";
+
+a {
+	color: #{darkLight(lightSkyBlue, cornflowerblue)};
+}
+
+@function textOutline($offset, $numOfShadows, $color) {
+	$returnStr: "";
+	@for $i from 0 to $numOfShadows {
+		@if $i > 0 {
+			$returnStr: $returnStr + ", ";
+		}
+		$returnStr: $returnStr +
+			($offset * math.sin(math.div($i * math.$pi * 2, $numOfShadows))) +
+			" " +
+			($offset * math.cos(math.div($i * math.$pi * 2, $numOfShadows))) +
+			" 0 " +
+			$color;
+	}
+	@return $returnStr;
+}
+
+::selection {
+	// color: var(--col-f);
+	// background-color: #{darkLight(seaGreen, darkSeaGreen)};
+	color: var(--col-0);
+	background-color: var(--col-f);
+	// text-shadow: #{textOutline(0.15em, 16, var(--col-0))};
+}
+
+br::selection {
+	background: transparent;
+}
+
+code {
+	background-color: var(--col-1);
+	padding: 0.2em;
+	border: 3px solid var(--col-2) {
+		radius: 0.3em;
+	}
+	font-family: "Consolas", monospace;
+}

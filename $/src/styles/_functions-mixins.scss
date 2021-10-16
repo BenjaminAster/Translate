@@ -1,0 +1,68 @@
+// @use "sass:math";
+
+@function calculateColorComponent($black-color, $dark-color, $light-color, $component) {
+	$black-val: 0;
+	$dark-val: 0;
+	$light-val: 0;
+
+	@if ($component == red) {
+		$black-val: red($black-color);
+		$dark-val: red($dark-color);
+		$light-val: red($light-color);
+	} @else if ($component == green) {
+		$black-val: green($black-color);
+		$dark-val: green($dark-color);
+		$light-val: green($light-color);
+	} @else if ($component == blue) {
+		$black-val: blue($black-color);
+		$dark-val: blue($dark-color);
+		$light-val: blue($light-color);
+	} @else if ($component == alpha) {
+		$black-val: alpha($black-color);
+		$dark-val: alpha($dark-color);
+		$light-val: alpha($light-color);
+	}
+
+	$return-val: "calc(";
+
+	$return-val: $return-val + $black-val;
+
+	$dark-sign: if($dark-val >= $black-val, "+", "-");
+	$dark-black-difference: abs($dark-val - $black-val);
+	$return-val: $return-val + if($dark-black-difference > 0, " #{$dark-sign} var(--is-dark)*#{$dark-black-difference}", "");
+	
+	$light-sign: if($light-val >= $black-val, "+", "-");
+	$light-black-difference: abs($light-val - $black-val);
+	$return-val: $return-val + if($light-black-difference > 0, " #{$light-sign} var(--is-light)*#{$light-black-difference}", "");
+
+	$return-val: $return-val + ")";
+
+	@return $return-val;
+}
+
+@function themeCalcFunction($theme-num) {
+	@return "calc(1 - min(max((var(--theme) - #{$theme-num}),0 - (var(--theme) - #{$theme-num})),1))";
+}
+
+@function darkLight($dark-color, $light-color) {
+	$red: calculateColorComponent($dark-color, $dark-color, $light-color, red);
+	$green: calculateColorComponent($dark-color, $dark-color, $light-color, green);
+	$blue: calculateColorComponent($dark-color, $dark-color, $light-color, blue);
+	$alpha: calculateColorComponent($dark-color, $dark-color, $light-color, alpha);
+
+	@if ((alpha($dark-color) == 1) and (alpha($light-color) == 1)) {
+		@return "rgb(#{$red},#{$green},#{$blue})";
+	}
+
+	@return "rgba(#{$red},#{$green},#{$blue},#{$alpha})";
+}
+
+@function blackDarkLight($black-color, $dark-color, $light-color) {
+	$red: calculateColorComponent($black-color, $dark-color, $light-color, red);
+	$green: calculateColorComponent($black-color, $dark-color, $light-color, green);
+	$blue: calculateColorComponent($black-color, $dark-color, $light-color, blue);
+
+	@return "rgb(#{$red},#{$green},#{$blue})";
+}
+
+// #

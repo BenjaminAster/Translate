@@ -1,0 +1,90 @@
+@use "sass:math";
+
+* {
+	box-sizing: border-box;
+	transition: var(--transition-props);
+}
+
+body {
+	margin: 0;
+
+	font-family: "Roboto", "Arial", "Segoe UI", "Nirmala UI", "Yu Gothic UI", sans-serif;
+
+	-webkit-tap-highlight-color: transparent;
+
+	@media all and (display-mode: standalone), (display-mode: fullscreen) {
+		overscroll-behavior: none;
+	}
+}
+
+#actual-content {
+	color: var(--col-f);
+	caret-color: var(--col-f);
+}
+
+button,
+select,
+input,
+textarea {
+	background: transparent;
+	color: var(--col-f);
+}
+
+select {
+	background-color: var(--col-0);
+}
+
+.no-transition {
+	&,
+	& * {
+		transition: none;
+	}
+}
+
+:root {
+	$transitionAttrs: 250ms ease;
+	$transitionStyleTypes: (color, background-color, border-color, box-shadow, translate);
+	$transition: "";
+
+	@each $val in $transitionStyleTypes {
+		$transition: $transition + $val + " " + $transitionAttrs;
+		@if ($val != nth($transitionStyleTypes, length($transitionStyleTypes))) {
+			$transition: $transition + ",";
+		}
+	}
+
+	--transition-props: #{$transition};
+
+	tab-size: 3;
+}
+
+::-webkit-scrollbar {
+	$scrollbarWidth: 1rem;
+	width: $scrollbarWidth;
+	height: $scrollbarWidth;
+
+	&-button,
+	&-thumb {
+		width: $scrollbarWidth;
+		height: $scrollbarWidth;
+
+		border: math.div($scrollbarWidth, 4) solid transparent {
+			radius: math.div($scrollbarWidth, 2);
+		}
+
+		background-clip: padding-box;
+		background-color: var(--scrollbar-fg);
+
+		&:hover {
+			background-color: var(--scrollbar-hover);
+		}
+
+		&:active {
+			background-color: var(--scrollbar-active);
+		}
+	}
+
+	&-corner {
+		background-color: var(--scrollbar-bg);
+	}
+}

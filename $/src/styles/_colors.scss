@@ -1,0 +1,98 @@
+//
+
+@use "sass:math";
+
+@import "functions-mixins";
+
+$hex-list: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f);
+
+// $fromBlack: #000105;
+// $toBlack: #fafbff;
+
+$fromBlack: #000209;
+$toBlack: #f6f8ff;
+
+$fromDark: #101737;
+$toDark: #d8dfff;
+
+$fromLight: white;
+$toLight: black;
+
+#actual-content {
+	--theme: 1;
+
+	--is-black: #{themeCalcFunction(0)};
+	--is-dark: #{themeCalcFunction(1)};
+	--is-light: #{themeCalcFunction(2)};
+
+	$hexList: (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, a, b, c, d, e, f);
+	$max: length($hexList) - 1;
+
+	@for $i from 0 through $max {
+		$hexNum: nth($hexList, $i + 1);
+
+		$blackCol: mix($toBlack, $fromBlack, math.div($i * 100%, $max));
+		$darkCol: mix($toDark, $fromDark, math.div($i * 100%, $max));
+		$lightCol: mix($toLight, $fromLight, math.div($i * 100%, $max));
+
+		--col-#{$hexNum}: #{blackDarkLight($blackCol, $darkCol, $lightCol)};
+
+		@if ($i != $max) {
+			$blackCol: mix($toBlack, $fromBlack, math.div(($i + 0.5) * 100%, $max));
+			$darkCol: mix($toDark, $fromDark, math.div(($i + 0.5) * 100%, $max));
+			$lightCol: mix($toLight, $fromLight, math.div(($i + 0.5) * 100%, $max));
+
+			--col-#{$hexNum}8: #{blackDarkLight($blackCol, $darkCol, $lightCol)};
+		}
+	}
+
+	--extr-bg: #{darkLight(black, white)};
+}
+
+body > input[type="radio"][name="theme-toggle"] {
+	@for $i from 0 through 2 {
+		&#theme-#{$i}:checked {
+			& ~ #actual-content {
+				--theme: #{$i};
+				.theme-toggle-labels {
+					label[for="theme-#{($i + 1) % 3}"] {
+						display: block;
+					}
+				}
+			}
+		}
+	}
+}
+
+:root {
+	color-scheme: dark;
+
+	$scrollbarBgPerc: 0%;
+	$scrollbarFgPerc: 30%;
+	$scrollbarHoverPerc: 50%;
+	$scrollbarActivePerc: 70%;
+
+	--scrollbar-bg-black: #{mix($toBlack, $fromBlack, $scrollbarBgPerc)};
+	--scrollbar-fg-black: #{mix($toBlack, $fromBlack, $scrollbarFgPerc)};
+	--scrollbar-hover-black: #{mix($toBlack, $fromBlack, $scrollbarHoverPerc)};
+	--scrollbar-active-black: #{mix($toBlack, $fromBlack, $scrollbarActivePerc)};
+
+	--scrollbar-bg-dark: #{mix($toDark, $fromDark, $scrollbarBgPerc)};
+	--scrollbar-fg-dark: #{mix($toDark, $fromDark, $scrollbarFgPerc)};
+	--scrollbar-hover-dark: #{mix($toDark, $fromDark, $scrollbarHoverPerc)};
+	--scrollbar-active-dark: #{mix($toDark, $fromDark, $scrollbarActivePerc)};
+
+	--scrollbar-bg-light: #{mix($toLight, $fromLight, $scrollbarBgPerc)};
+	--scrollbar-fg-light: #{mix($toLight, $fromLight, $scrollbarFgPerc)};
+	--scrollbar-hover-light: #{mix($toLight, $fromLight, $scrollbarHoverPerc)};
+	--scrollbar-active-light: #{mix($toLight, $fromLight, $scrollbarActivePerc)};
+
+	--scrollbar-bg: var(--scrollbar-bg-dark);
+	--scrollbar-fg: var(--scrollbar-fg-dark);
+	--scrollbar-hover: var(--scrollbar-hover-dark);
+	--scrollbar-active: var(--scrollbar-active-dark);
+
+	background-color: var(--scrollbar-bg);
+	scrollbar-color: var(--scrollbar-fg) var(--scrollbar-bg);
+	scrollbar-width: thin;
+}
