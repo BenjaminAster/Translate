@@ -13,18 +13,22 @@
 	let langs = [
 		{
 			lang: "de",
-			value: "hallo",
+			langName: "German",
+			value: "",
+			textarea: undefined as HTMLTextAreaElement,
 		},
 		{
 			lang: "en",
-			value: "hello",
+			langName: "English",
+			value: "",
+			textarea: undefined as HTMLTextAreaElement,
 		},
 	];
 
 	let requestsMade: number = 0;
 	let latestResponse: number = 0;
 
-	let languages: Promise<
+	const languagePromise: Promise<
 		{
 			code: string;
 			name: string;
@@ -32,10 +36,17 @@
 	> = (async () =>
 		await (await window.fetch(`${translateURL}/languages`)).json())();
 
-	const getTranslation = (isFirstTextarea: boolean) => async (evt: Event) => {
-		const value: string = (evt.target as HTMLTextAreaElement).value.trim();
+	let languages: {
+		code: string;
+		name: string;
+	}[] = [];
+
+	const getTranslation = (isFirstTextarea: boolean) => async (evt?: Event) => {
+		const value: string = (
+			(evt?.target as HTMLTextAreaElement) || langs[+!isFirstTextarea]
+		).value.trim();
 		if (!value)
-			return void setTimeout(() => (langs[Number(isFirstTextarea)].value = ""));
+			return void window.setTimeout(() => (langs[+isFirstTextarea].value = ""));
 		const requestNr: number = requestsMade++;
 		const res: Response = await window.fetch(
 			`${translateURL}/translate`, //
@@ -43,8 +54,8 @@
 				method: "POST",
 				body: JSON.stringify({
 					q: value,
-					source: langs[Number(!isFirstTextarea)].lang,
-					target: langs[Number(isFirstTextarea)].lang,
+					source: langs[+!isFirstTextarea].lang,
+					target: langs[+isFirstTextarea].lang,
 					format: "text",
 				}),
 				headers: {
@@ -54,9 +65,7 @@
 		);
 		if (res.ok) {
 			if (requestNr >= latestResponse) {
-				langs[Number(isFirstTextarea)].value = (
-					await res.json()
-				)?.translatedText;
+				langs[+isFirstTextarea].value = (await res.json())?.translatedText;
 				latestResponse = requestNr;
 			}
 		} else {
@@ -66,18 +75,23 @@
 		}
 	};
 
-	const switchLangs = () => (evt: Event) => {
+	const switchLangs = () => (evt?: Event) => {
+		const textarea = focusedTextarea;
 		langs = langs.reverse();
+		getTranslation(textarea !== 1)();
 		(
 			document
 				.querySelector("section.translations")
-				.children[focusedTextarea]?.querySelector(
+				.children[(focusedTextarea + 1 || 1) - 1]?.querySelector(
 					"textarea",
 				) as HTMLTextAreaElement
 		)?.focus();
+		window.setTimeout(() => {
+			focusedTextarea = textarea;
+		}, 250);
 	};
 
-	const textareaFocus = (textarea: number, focus: boolean) => (evt: Event) => {
+	const textareaFocus = (textarea: number, focus: boolean) => (evt?: Event) => {
 		if (focus) {
 			focusedTextarea = textarea;
 		} else {
@@ -87,11 +101,22 @@
 				}
 			}, 250);
 		}
-		console.log({ textarea, focus, focusedTextarea });
 	};
 
 	onMount(async () => {
-		languages = await (await window.fetch(`${translateURL}/languages`)).json();
+		window.addEventListener("keypress", (evt: KeyboardEvent) => {
+			if (evt.code === "KeyS" && evt.ctrlKey && evt.shiftKey) {
+				switchLangs()();
+			}
+			if (!evt.ctrlKey && !evt.altKey && !evt.metaKey && focusedTextarea < 0) {
+				langs[0].textarea?.focus();
+			}
+		});
+		window.addEventListener("focus", (evt: FocusEvent) => {
+			window.setTimeout(() => langs[0].textarea?.focus(), 100);
+		});
+		langs[0].textarea?.focus();
+		languages = await languagePromise;
 	});
 </script>
 
@@ -104,28 +129,32 @@
 </div>
 
 <section class="translations">
-	<div class="translation from">
-		<textarea
-			tabindex={1}
-			on:focus={textareaFocus(0, true)}
-			on:blur={textareaFocus(0, false)}
-			on:input={getTranslation(true)}
-			bind:value={langs[0].value}
-			spellcheck={false}
-		/>
-		<Languages {languages} bind:selectedLang={langs[0].lang} />
-	</div>
-	<div class="translation to">
-		<textarea
-			tabindex={1}
-			on:focus={textareaFocus(1, true)}
-			on:blur={textareaFocus(1, false)}
-			on:input={getTranslation(false)}
-			bind:value={langs[1].value}
-			spellcheck={false}
-		/>
-		<Languages {languages} bind:selectedLang={langs[1].lang} />
-	</div>
+	{#each [...Array(2)] as _, i (i)}
+		<div class="translation from">
+			<textarea
+				tabindex={1}
+				placeholder={i - +(focusedTextarea !== 1)
+					? `Type ${langs[+(focusedTextarea === 1)].langName} here`
+					: `See ${langs[+(focusedTextarea !== 1)].langName} translation here`}
+				on:focus={textareaFocus(i, true)}
+				on:blur={textareaFocus(i, false)}
+				on:input={getTranslation(!i)}
+				bind:value={langs[i].value}
+				bind:this={langs[i].textarea}
+				spellcheck={false}
+			/>
+			<Languages
+				{languagePromise}
+				bind:selectedLang={langs[i].lang}
+				on:change={() => {
+					getTranslation(focusedTextarea !== 1)();
+					langs[i].langName = languages.filter(
+						({ code }) => code === langs[i].lang,
+					)[0].name;
+				}}
+			/>
+		</div>
+	{/each}
 </section>
 
 <!---->
@@ -193,6 +222,10 @@
 				// overflow-y: hidden;
 				&:focus {
 					background-color: var(--col-4);
+				}
+
+				&::placeholder {
+					color: var(--col-a);
 				}
 			}
 		}

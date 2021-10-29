@@ -118,11 +118,17 @@ function setColorTheme(theme: 0 | 1 | 2) {
 		}
 	})();
 
-	document.documentElement.style["colorScheme"] = (themeName === "light") ? "light" : "dark";
-
 	for (const type of ["bg", "fg", "hover", "active"]) {
 		document.documentElement.style.setProperty(`--scrollbar-${type}`, ` var(--scrollbar-${type}-${themeName})`);
 	}
+
+	const colorSchemeElement: HTMLMetaElement = document.querySelector("meta[name=color-scheme]");
+	if (colorSchemeElement) colorSchemeElement.content = (themeName === "light") ? "light" : "dark";
+
+	const themeColorElement: HTMLMetaElement = document.querySelector("meta[name=theme-color]");
+	if (themeColorElement) themeColorElement.content = window.getComputedStyle(
+		document.querySelector("#actual-content")
+	)?.getPropertyValue("--col-08");
 };
 
 export const colorTheme = {

@@ -24,10 +24,10 @@
 ##     /translate/                            ##
 ##                                            ##
 ##   Server-rendered at:                      ##
-##     16.10.2021, 14:52:59 GMT+2             ##
+##     29.10.2021, 18:49:14 GMT+2             ##
 ##                                            ##
 ##   Version:                                 ##
-##     128                                    ##
+##     198                                    ##
 ##                                            ##
 ##   Directories (see Sources in DevTools):   ##
 ##     - App directory: ./_/                  ##
@@ -48,6 +48,7 @@
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="apple-touch-icon" href="/media/white-black-circle.png">
 <meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark">
 
 <meta name="robots" content="all">
 <meta name="description" content="A SvelteKit test">
@@ -75,17 +76,17 @@
 
 		
 
-		<link rel="modulepreload" href="/translate/_/start-41c1ec1d.js">
-		<link rel="modulepreload" href="/translate/_/chunks/vendor-c28478b8.js">
+		<link rel="modulepreload" href="/translate/_/start-9a1a0fa0.js">
+		<link rel="modulepreload" href="/translate/_/chunks/vendor-77db0df1.js">
 		<link rel="modulepreload" href="/translate/_/chunks/paths-45dac81d.js">
-		<link rel="modulepreload" href="/translate/_/pages/__layout.svelte-f3e6f8cb.js">
-		<link rel="modulepreload" href="/translate/_/pages/index.svelte-cbfe0e32.js">
+		<link rel="modulepreload" href="/translate/_/pages/__layout.svelte-7746cbc9.js">
+		<link rel="modulepreload" href="/translate/_/pages/index.svelte-dc9b707e.js">
 		<link rel="stylesheet" href="/translate/_/assets/start-a8cd1609.css">
-		<link rel="stylesheet" href="/translate/_/assets/pages/__layout.svelte-1e3abe11.css">
-		<link rel="stylesheet" href="/translate/_/assets/pages/index.svelte-a182ca9d.css">
+		<link rel="stylesheet" href="/translate/_/assets/pages/__layout.svelte-4f00f94f.css">
+		<link rel="stylesheet" href="/translate/_/assets/pages/index.svelte-f2cba780.css">
 
 		<script type="module">
-			import { start } from "/translate/_/start-41c1ec1d.js";
+			import { start } from "/translate/_/start-9a1a0fa0.js";
 			start({
 				target: document.body,
 				paths: {"base":"/translate","assets":"/translate"},
@@ -98,8 +99,8 @@
 					status: 200,
 					error: null,
 					nodes: [
-						import("/translate/_/pages/__layout.svelte-f3e6f8cb.js"),
-						import("/translate/_/pages/index.svelte-cbfe0e32.js")
+						import("/translate/_/pages/__layout.svelte-7746cbc9.js"),
+						import("/translate/_/pages/index.svelte-dc9b707e.js")
 					],
 					page: {
 						host: location.host, // TODO this is redundant
@@ -149,13 +150,9 @@
 	
 
 
-<nav class="svelte-138yyyx"><section class="buttons svelte-138yyyx"><button title="share" class="bi-share-fill svelte-138yyyx"></button>
-
-<button title="pop out window" class="bi-box-arrow-up-right svelte-138yyyx"></button>
+<nav class="svelte-138yyyx"><section class="buttons svelte-138yyyx"><button title="pop out window" class="bi-box-arrow-up-right svelte-138yyyx"></button>
 
 <button title="clear cache & reload" class="bi-arrow-clockwise svelte-138yyyx"></button>
-
-<button title="download source code as ZIP" class="bi-file-earmark-zip-fill svelte-138yyyx"></button>
 
 <button class="theme-toggle-labels svelte-138yyyx" title="toggle light theme"><label for="theme-1" class="bi-moon-fill svelte-138yyyx"></label>
 	<label for="theme-2" class="bi-moon svelte-138yyyx"></label>
@@ -171,32 +168,35 @@
 
 
 
-<div class="top-bar svelte-1fzljj7"><button class="bi-arrow-left-right switch-langs svelte-1fzljj7"></button></div>
+<div class="top-bar svelte-yoma1h"><button class="bi-arrow-left-right switch-langs svelte-yoma1h"></button></div>
 
-<section class="translations svelte-1fzljj7"><div class="translation from svelte-1fzljj7"><textarea tabindex="1" spellcheck="false" class="svelte-1fzljj7">hallo</textarea>
-<ul class="langs svelte-13irh07">
-<p>Loading languages... <span class="bi-arrow-repeat spin svelte-13irh07"></span></p>
+<section class="translations svelte-yoma1h"><div class="translation from svelte-yoma1h"><textarea tabindex="1" placeholder="Type German here" spellcheck="false" class="svelte-yoma1h"></textarea>
+	<ul class="langs svelte-16g0a1o">
+<p>Loading languages... <span class="bi-arrow-repeat spin svelte-16g0a1o"></span></p>
 	
-</ul></div>
-	<div class="translation to svelte-1fzljj7"><textarea tabindex="1" spellcheck="false" class="svelte-1fzljj7">hello</textarea>
-<ul class="langs svelte-13irh07">
-<p>Loading languages... <span class="bi-arrow-repeat spin svelte-13irh07"></span></p>
+</ul>
+</div><div class="translation from svelte-yoma1h"><textarea tabindex="1" placeholder="See English translation here" spellcheck="false" class="svelte-yoma1h"></textarea>
+	<ul class="langs svelte-16g0a1o">
+<p>Loading languages... <span class="bi-arrow-repeat spin svelte-16g0a1o"></span></p>
 	
-</ul></div></section>
+</ul>
+</div></section>
 
 </main>
 
-	<footer class="svelte-9kk9n9">©
-
-2021 Benjamin Aster
-
-•
-<span class="version svelte-9kk9n9">v128</span></footer>
+	<footer class="svelte-9kk9n9">Made with
+<span style="color:red">❤</span>
+by Benjamin Aster •
+<span class="version svelte-9kk9n9">v198</span>
+• Translation engine:
+<a href="https://libretranslate.com">LibreTranslate</a>
+(<a href="https://translate.argosopentech.com">public instance by ArgosOpenTech</a>)
+	</footer>
 </section>
 
 
 
-	<script type="application/json" data-type="svelte-data" data-url="/_/info.json">{"status":200,"statusText":"","headers":{"content-type":"application/json"},"body":"{\n\t\"version\": 128,\n\t\"timestamp\": 1634388779666,\n\t\"timestampString\": \"16.10.2021, 14:52:59 GMT+2\",\n\t\"appDir\": \"_\",\n\t\"srcDir\": \"$\",\n\t\"basePath\": \"\u002Ftranslate\"\n}"}</script>
+	<script type="application/json" data-type="svelte-data" data-url="/_/info.json">{"status":200,"statusText":"","headers":{"content-type":"application/json"},"body":"{\n\t\"version\": 198,\n\t\"timestamp\": 1635526154979,\n\t\"timestampString\": \"29.10.2021, 18:49:14 GMT+2\",\n\t\"appDir\": \"_\",\n\t\"srcDir\": \"$\",\n\t\"basePath\": \"\u002Ftranslate\"\n}"}</script>
 
 </body>
 

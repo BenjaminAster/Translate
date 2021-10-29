@@ -4,7 +4,7 @@
 @import "functions-mixins";
 
 a {
-	color: #{darkLight(lightSkyBlue, cornflowerblue)};
+	color: #{darkLight(lightSkyBlue, royalBlue)};
 }
 
 @function textOutline($offset, $numOfShadows, $color) {

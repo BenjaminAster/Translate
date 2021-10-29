@@ -12,7 +12,6 @@
 	} from "svelte/transition";
 
 	import {
-		zipFiles, //
 		colorTheme, //
 	} from "$lib/utils";
 
@@ -44,18 +43,6 @@
 <nav>
 	<section class="buttons">
 		<button
-			title="share"
-			class="bi-share-fill"
-			on:click={() => {
-				navigator.share?.({
-					url: location.href,
-					title: document.title,
-					text: document.title,
-				});
-			}}
-		/>
-
-		<button
 			title="pop out window"
 			class="bi-box-arrow-up-right"
 			on:click={async () => {
@@ -67,12 +54,6 @@
 			title="clear cache & reload"
 			class="bi-arrow-clockwise"
 			on:click={PWA.clearCacheAndReload}
-		/>
-
-		<button
-			title="download source code as ZIP"
-			class="bi-file-earmark-zip-fill"
-			on:click={zipFiles}
 		/>
 
 		<button

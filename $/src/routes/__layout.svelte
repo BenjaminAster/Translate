@@ -56,14 +56,15 @@
 	</main>
 
 	<footer>
-		&copy;
-		<!---->
-		2021 Benjamin Aster
-		<!---->
-		&bull;
+		Made with
+		<span style="color:red">❤</span>
+		by Benjamin Aster &bull;
 		<span class="version">
 			v{renderInfo.version}
 		</span>
+		&bull; Translation engine:
+		<a href="https://libretranslate.com">LibreTranslate</a>
+		(<a href="https://translate.argosopentech.com">public instance by ArgosOpenTech</a>)
 	</footer>
 </section>
 

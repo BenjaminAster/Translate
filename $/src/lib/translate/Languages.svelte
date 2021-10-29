@@ -1,17 +1,26 @@
 <script lang="ts">
-	export let languages: Promise<{ name: string; code: string }[]>;
+	import { createEventDispatcher } from "svelte";
+	const dispach = createEventDispatcher();
+
+	export let languagePromise: Promise<{ name: string; code: string }[]>;
 	export let selectedLang: string;
 </script>
 
 <ul class="langs">
-	{#await languages}
+	{#await languagePromise}
 		<p>Loading languages... <span class="bi-arrow-repeat spin" /></p>
 	{:then languages}
 		{#each languages as language}
 			<li>
 				<button
 					class:active={selectedLang === language.code}
-					on:click={() => (selectedLang = language.code)}
+					style={`--color: rgb(${Math.random() * 128 + 128}, ${
+						Math.random() * 128 + 128
+					}, ${Math.random() * 128 + 128})`}
+					on:click={() => {
+						selectedLang = language.code;
+						dispach("change");
+					}}
 				>
 					{language.name}
 				</button>
@@ -31,10 +40,10 @@
 		li {
 			button {
 				padding: 0.4em 0.8em;
-				border: 2px solid var(--col-a) {
+				border: 2px solid var(--col-c) {
 					radius: 99vmax;
 				}
-				background-color: var(--col-1);
+				background-color: var(--col-2);
 				@media (hover) {
 					&:hover {
 						background-color: var(--col-4);

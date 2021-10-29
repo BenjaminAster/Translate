@@ -57,6 +57,7 @@
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="/media/white-black-circle.png" />
 <meta name="theme-color" content="#000000" />
+<meta name="color-scheme" content="dark" />
 
 <meta name="robots" content="all" />
 <meta name="description" content="A SvelteKit test" />
